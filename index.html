@@ -85,7 +85,7 @@
 
     <div class="container">
         <h1>Real-Time Sensor Data Visualization</h1>
-        <p>Voltage and Resistance data from the microprocessor</p>
+        <p>Voltage, Resistance, and Calibration Force data from the microprocessor</p>
 
         <!-- Buttons to control the simulation -->
         <div class="text-center">
@@ -94,7 +94,7 @@
             <button id="resetBtn" class="btn btn-warning" disabled>Reset</button>
         </div>
 
-        <!-- Chart for displaying voltage and resistance -->
+        <!-- Chart for displaying voltage, resistance, and calibration force -->
         <canvas id="sensorChart" width="400" height="200"></canvas>
     </div>
 
@@ -128,6 +128,14 @@
                             borderWidth: 2,
                             fill: false,
                             tension: 0.4,  // Interpolation mode for smooth curves
+                        },
+                        {
+                            label: 'Calibration Force (N)',
+                            data: [],
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            fill: false,
+                            tension: 0.4,  // Interpolation mode for smooth curves
                         }
                     ]
                 },
@@ -145,6 +153,7 @@
             function fetchSensorData() {
                 const voltage = (Math.random() * 5).toFixed(2);  // Simulate voltage between 0 and 5V
                 const resistance = (Math.random() * 100).toFixed(2);  // Simulate resistance between 0 and 100Ω
+                const force = (Math.random() * 50).toFixed(2);  // Simulate force between 0 and 50N
 
                 const currentTime = new Date().toLocaleTimeString();
 
@@ -152,11 +161,13 @@
                     sensorChart.data.labels.shift();
                     sensorChart.data.datasets[0].data.shift();
                     sensorChart.data.datasets[1].data.shift();
+                    sensorChart.data.datasets[2].data.shift();
                 }
 
                 sensorChart.data.labels.push(currentTime);
                 sensorChart.data.datasets[0].data.push(voltage);
                 sensorChart.data.datasets[1].data.push(resistance);
+                sensorChart.data.datasets[2].data.push(force);
 
                 sensorChart.update();
             }
@@ -187,6 +198,7 @@
                 sensorChart.data.labels = [];
                 sensorChart.data.datasets[0].data = [];
                 sensorChart.data.datasets[1].data = [];
+                sensorChart.data.datasets[2].data = [];
                 sensorChart.update();
 
                 document.getElementById('startBtn').disabled = false;
